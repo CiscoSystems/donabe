@@ -9,7 +9,9 @@ gem 'sqlite3'
 
 gem 'json'
 
-gem 'ropenstack', :path => "../ropenstack"
+# This currently assumes that the intern_incubator repo has also been pulled into the parent directory
+# Will be updated when ropenstack is made publicly available
+gem 'ropenstack', :path => "../intern_incubator/ropenstack"
 
 # Gems used only for assets and not required
 # in production environments by default.
