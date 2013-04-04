@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  endpoint_id: MyString
+  connected_id: MyString
+  embedded_container: 
+
+two:
+  endpoint_id: MyString
+  connected_id: MyString
+  embedded_container: 

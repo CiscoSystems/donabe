@@ -1,0 +1,66 @@
+== Welcome to Donabe
+
+Donabe is a Ruby on Rails based service for managing recursively designed 
+application containers in OpenStack.
+
+== Getting Started
+
+Make sure you have Rails installed with RVM and all of its dependencies. 
+Instructions for installing Rails can be found at:
+
+  http://rubyonrails.org/
+
+And for RVM at:
+
+  https://rvm.io/
+  
+After everything is installed, make sure you're in the Donabe directory and run the command:
+
+  bundle install
+
+This will install all of the Ruby Gems that Donabe needs to run.
+
+Next, open the file:
+
+  Donabe/config/donabe.yml
+
+Change the keystone values to those relevant to your OpenStack deployment. In a normal setup
+the two port values shouldn't need changing from the default. The username and password need 
+to be for the admin user.
+
+The values for publicurl, adminurl, and internalurl are the IP address and port for the 
+machine on which donabe is running, in the format:
+
+  1.2.3.4:1234
+
+For most setups all three will be the same.
+
+Once you have edited and saved this file, that is the only configuration that Donabe needs.
+
+To start the Donabe service, first initialise the database with the folling commands:
+
+  rake db:create
+  rake db:migrate
+
+Finally, start the Donabe service with the command:
+
+  rails server
+
+Alternatively Doanbe can be run in daemon mosde using:
+
+  rails server -d
+
+Or on a custom port using:
+
+  rails server -p 1234
+
+Where '1234' is replaced with the desired port.
+
+== The Recursive container format
+
+To be written.
+
+== Using Donabe via REST API
+
+To be written.
+

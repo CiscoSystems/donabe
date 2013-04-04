@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  openstack_id: MyString
+  deployed_container: 
+
+two:
+  openstack_id: MyString
+  deployed_container: 

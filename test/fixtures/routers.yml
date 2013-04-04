@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  temp_id: MyString
+  exnet: false
+  container: 
+  network_design: 
+
+two:
+  temp_id: MyString
+  exnet: false
+  container: 
+  network_design: 

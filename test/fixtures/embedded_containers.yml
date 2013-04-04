@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  embedded_container_id: MyString
+  container: 
+  network_design: 
+
+two:
+  embedded_container_id: MyString
+  container: 
+  network_design: 

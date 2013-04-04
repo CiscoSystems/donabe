@@ -1,0 +1,52 @@
+{"deployed containers": [
+  <% @first_container = 1 %>
+  <% @deployed_containers.each do |container| %>
+  <% if container.tenant_id == @tenant_id %>
+  <% if @first_container > 0 %><% @first_container = 0 %><% else %>,<% end %>
+  {
+    "id": "<%= container.id %>",
+    "container_id": "<%= container.container_id %>",
+    "tenant_id": "<%= container.tenant_id %>",
+    "routers": [
+         <% @first_router = 1 %>
+         <% container.deployed_routers.each do |router| %>
+         <% if @first_router > 0 %><% @first_router = 0 %><% else %>,<% end %>
+         {
+           "temp_id": "<%= router.temp_id %>",
+           "openstack_id": "<%= router.openstack_id %>"
+         }<% end %>
+    ],
+    "networks": [
+         <% @first_network = 1 %>
+         <% container.deployed_networks.each do |network| %>
+         <% if @first_network > 0 %><% @first_network = 0 %><% else %>,<% end %>
+         {
+           "temp_id": "<%= network.temp_id %>",
+           "openstack_id": "<%= network.openstack_id %>",
+           "cidr": "<%= network.cidr %>"
+         }<% end %>
+    ],
+    "vms": [
+         <% @first_vm = 1 %>
+         <% container.deployed_vms.each do |vm| %>
+         <% if @first_vm > 0 %><% @first_vm = 0 %><% else %>,<% end %>
+         {
+           "temp id": "<%= vm.temp_id %>",
+           "openstack_id": "<%= vm.openstack_id %>",
+           "name": "<%= vm.vm_type %>",
+           "image_id": "<%= vm.image_id %>",
+           "image_name": "<%= vm.image_name %>",
+           "flavor": "<%= vm.flavor %>"
+         }<% end %>
+    ],
+    "containers": [
+         <% @first_deployed_container = 1 %>
+         <% container.deployed_containers.each do |deployed_container| %>
+         <% if @first_deployed_container > 0 %><% @first_deployed_container = 0 %><% else %>,<% end %>
+         {
+           "id": "<%= deployed_container.id %>"
+         }<% end %>
+    ]
+  }<% end %>
+  <% end %>
+]}

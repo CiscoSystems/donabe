@@ -1,0 +1,22 @@
+defaults: &defaults
+  keystone:
+    ip: 172.29.74.219
+    port: 5000
+    admin_port: 35357
+    username: admin
+    password: nova
+    tenant: admin
+  
+  region: RegionOne
+  publicurl: 172.29.74.219:3000
+  adminurl: 172.29.74.219:3000
+  internalurl: 172.29.74.219:3000
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
