@@ -46,7 +46,7 @@ Finally, start the Donabe service with the command:
 
   rails server
 
-Alternatively Doanbe can be run in daemon mosde using:
+Alternatively Donabe can be run in daemon mode using:
 
   rails server -d
 
