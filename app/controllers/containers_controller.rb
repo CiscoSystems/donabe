@@ -193,9 +193,9 @@ class ContainersController < ApplicationController
     end
   
     #### Uncomment this section for testing on a clean slate ####
-    @buzz_lightyear = DeployedContainer.all
-    @buzz_lightyear.each do |buzz|
-      destroy_deployed(buzz,token,nova_ip,quantum_ip)
+    @to_delete = DeployedContainer.all
+    @to_delete.each do |container|
+      destroy_deployed(container,token,nova_ip,quantum_ip)
     end
     #############################################################
 
