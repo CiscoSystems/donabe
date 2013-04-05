@@ -1,7 +1,7 @@
 class CreateDeployedContainers < ActiveRecord::Migration
   def change
     create_table :deployed_containers do |t|
-      t.string :container_id
+      t.integer :container_id
       t.string :tenant_id
       t.string :name
       t.references :deployed_container

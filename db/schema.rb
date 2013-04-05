@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(:version => 20130304220548) do
   add_index "deployed_connected_networks", ["deployed_vm_id"], :name => "index_deployed_connected_networks_on_deployed_vm_id"
 
   create_table "deployed_containers", :force => true do |t|
-    t.string   "container_id"
+    t.integer  "container_id"
     t.string   "tenant_id"
     t.string   "name"
     t.integer  "deployed_container_id"
