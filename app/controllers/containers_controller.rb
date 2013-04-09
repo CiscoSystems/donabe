@@ -1,5 +1,9 @@
-# This controller contains all functions concerning creating, editing, deploying, retrieving, and 
-# destroying containers. Functions accessible via REST are marked with their API.
+=begin
+	* Name: ContainersController
+	* Description: Contains all functions for creation/modification/deployment of containers
+	* Author: John Davidge
+	* Date: 09/04/2013
+=end
 
 require 'json'
 require 'net/http'
@@ -177,10 +181,15 @@ class ContainersController < ApplicationController
 
     # Check for auth token in HTTP request
     if request.headers["X-Auth-Token"] != ""
+      logger.info "Token not blank"
       token = request.headers["X-Auth-Token"]
+      logger.info "Token:"
+      logger.info token
       begin
         # Define OpenStack endpoint URLs
         services = Donabe::KEYSTONE.get_endpoints(token)
+        logger.info "SERVICES:"
+        logger.info services
         services["endpoints"].each do |endpoint|
           if endpoint["name"] == "nova"
             nova_ip = endpoint["internalURL"]

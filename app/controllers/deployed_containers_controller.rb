@@ -1,3 +1,10 @@
+=begin
+	* Name: DeployedContainersController
+	* Description: Contains all functions for creation/modification of deployed containers
+	* Author: John Davidge
+	* Date: 09/04/2013
+=end
+
 class DeployedContainersController < ApplicationController
 
   # GET :tenant_id/deployed_container/:id.json
@@ -9,7 +16,75 @@ class DeployedContainersController < ApplicationController
   # GET :tenant_id/deployed_containers.json
   # Get a JSON representation of all deployed containers belonging to the given tenant
   def index
+    nova_ip = nil
+    quantum_ip = nil
+    if request.headers["X-Auth-Token"] != ""
+      token = request.headers["X-Auth-Token"]
+      begin
+        services = Donabe::KEYSTONE.get_endpoints(token)
+        services["endpoints"].each do |endpoint|
+          if endpoint["name"] == "nova"
+            nova_ip = endpoint["internalURL"]
+          elsif endpoint["name"]  == "quantum"
+            quantum_ip = endpoint["internalURL"]
+          end
+        end
+      rescue
+        token = Storage.find(cookies[:current_token]).data
+        nova_ip = Storage.find(cookies[:nova_ip]).data
+        quantum_ip = Storage.find(cookies[:quantum_ip]).data
+      end
+    end
+    
+    checkNodes(DeployedContainer.where(:tenant_id => params[:tenant_id]),nova_ip,quantum_ip,token)
+
     @deployed_containers = DeployedContainer.where(:tenant_id => params[:tenant_id])
+  end
+
+  # Checks all nodes in a given list of deployed containers to make sure they still
+  # exist in openstack. If a node no longer exists, remove it from the container.
+  # If all nodes in a container no longer exist, delete the container.
+  def checkNodes(deployed_containers,nova_ip,quantum_ip,token)
+    novaIP = URI.parse(nova_ip)
+    nova =  Ropenstack::Nova.new(novaIP, token)
+
+    quantumIP = URI.parse(quantum_ip)
+    quantum = Ropenstack::Quantum.new(quantumIP, token)
+
+    deployed_containers.each do |deployed_container|
+      # Check all VMs in the container
+      deployed_container.deployed_vms.each do |vm|
+        begin
+          # Ask openstack for the server details
+          server = nova.servers(vm.openstack_id)
+        rescue
+          # If openstack returns an error, delete the vm
+          vm.destroy()
+        end
+      end
+
+      # Check all networks in the container
+      deployed_container.deployed_networks.each do |network|
+        begin
+          # Ask openstack for the network details
+          network = quantum.networks(network.openstack_id)
+        rescue
+          # If openstack returns an error, delete the network
+          network.destroy()
+        end
+      end
+
+      # Check all routers in the container
+      deployed_container.deployed_routers.each do |router|
+        begin
+          # Ask openstack for the router details
+          router = quantum.routers(router.openstack_id)
+        rescue
+          # If openstack returns an error, delete the router
+          router.destroy()
+        end
+      end
+    end
   end
 
   # PUT :tenant_id/deployed_containers.json
