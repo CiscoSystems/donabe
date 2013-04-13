@@ -20,6 +20,8 @@ class ContainersController < ApplicationController
   # Get a JSON representation of all containers belonging to the given tenant
   def index
     @containers = Container.where(:tenant_id => params[:tenant_id])
+    logger.info "Containers:"
+    logger.info @containers.to_s()
   end
 
   # Called by the 'create' function
@@ -210,6 +212,9 @@ class ContainersController < ApplicationController
 
     # Deploy this container, and by implication all nested containers
     @deployed_container = deployHelper(@deployed_container,params[:id],params[:tenant_id],false,[],nil,token,nova_ip,quantum_ip)  
+
+    # Cheap hack for demo purposes
+    sleep(5)
 
     if @deployed_container.save
       # deploy.json.jbuilder will be used to provide a response
