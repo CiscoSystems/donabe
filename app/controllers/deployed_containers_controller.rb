@@ -39,6 +39,8 @@ class DeployedContainersController < ApplicationController
     checkNodes(DeployedContainer.where(:tenant_id => params[:tenant_id]),nova_ip,quantum_ip,token)
 
     @deployed_containers = DeployedContainer.where(:tenant_id => params[:tenant_id])
+    logger.info "Deployed Containers:"
+    logger.info @deployed_containers.to_s()
   end
 
   # Checks all nodes in a given list of deployed containers to make sure they still
