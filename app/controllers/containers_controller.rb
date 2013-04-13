@@ -208,6 +208,8 @@ class ContainersController < ApplicationController
     end
     #############################################################
 
+    sleep(10)
+
     # Deploy this container, and by implication all nested containers
     @deployed_container = deployHelper(@deployed_container,params[:id],params[:tenant_id],false,[],nil,token,nova_ip,quantum_ip)  
 
