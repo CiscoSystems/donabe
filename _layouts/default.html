@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title> {% if page.title %} {{ page.title }} | {% endif %} Curvature - The Advanced Dashboard </title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="header">
+      <h1> Donabe - The Recursive Service </h1>
+    </div>
+    <div id="main">
+      <div id="nav">
+        <ul>
+          <li> Home </li>
+          <li> About the Project </li>
+          <li> Documentation </li>
+        </ul>
+        Related Projects:
+        <ul>
+          <li> Donabe </li>
+        </ul>
+      </div>
+      <div id="content">
+        {{ content }}
+      </div>
+      <div class="clear"> </div>
+    </div>
+    <div id="footer">
+      <p> Some footer information goes here like copyright or something </p>
+    </div>
+  </body>
+</html>
