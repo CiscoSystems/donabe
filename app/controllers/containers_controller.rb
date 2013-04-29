@@ -204,13 +204,11 @@ class ContainersController < ApplicationController
     end
   
     #### Uncomment this section for testing on a clean slate ####
-    @to_delete = DeployedContainer.all
-    @to_delete.each do |container|
-      destroy_deployed(container,token,nova_ip,quantum_ip)
-    end
+    #@to_delete = DeployedContainer.all
+    #@to_delete.each do |container|
+    #  destroy_deployed(container,token,nova_ip,quantum_ip)
+    #end
     #############################################################
-
-    sleep(10)
 
     # Deploy this container, and by implication all nested containers
     @deployed_container = deployHelper(@deployed_container,params[:id],params[:tenant_id],false,[],nil,token,nova_ip,quantum_ip)  

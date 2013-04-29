@@ -69,7 +69,7 @@ class DeployedContainersController < ApplicationController
       deployed_container.deployed_networks.each do |network|
         begin
           # Ask openstack for the network details
-          network = quantum.networks(network.openstack_id)
+          net = quantum.networks(network.openstack_id)
         rescue
           # If openstack returns an error, delete the network
           network.destroy()
@@ -80,7 +80,7 @@ class DeployedContainersController < ApplicationController
       deployed_container.deployed_routers.each do |router|
         begin
           # Ask openstack for the router details
-          router = quantum.routers(router.openstack_id)
+          r = quantum.routers(router.openstack_id)
         rescue
           # If openstack returns an error, delete the router
           router.destroy()

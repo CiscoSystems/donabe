@@ -1,16 +1,16 @@
 defaults: &defaults
   keystone:
-    ip: localhost 
+    ip: 171.71.119.10
     port: 5000
     admin_port: 35357
     username: admin
-    password: portland 
+    password: nova
     tenant: admin
   
   region: RegionOne
-  publicurl: localhost:3001
-  adminurl: localhost:3001
-  internalurl: localhost:3001
+  publicurl: 171.71.119.10:3001
+  adminurl: 171.71.119.10:3001
+  internalurl: 171.71.119.10:3001
 
 development:
   <<: *defaults
