@@ -580,23 +580,32 @@ class ContainersController < ApplicationController
   def destroy_deployed_REST
     @deployed = DeployedContainer.find(params[:id])
 
+    nova_ip = nil
+    quantum_ip = nil
+
+    # Check for auth token in HTTP request
     if request.headers["X-Auth-Token"] != ""
+      logger.info "Token not blank"
       token = request.headers["X-Auth-Token"]
-      services = Donabe::KEYSTONE.get_endpoints(token)
-      services["endpoints"].each do |endpoint|
-        if endpoint["name"] == "nova"
-          nova_ip = endpoint["internalURL"]
-        elsif endpoint["name"]  == "quantum"
-          quantum_ip = endpoint["internalURL"]
+      logger.info "Token:"
+      logger.info token
+      begin
+        # Define OpenStack endpoint URLs
+        services = Donabe::KEYSTONE.get_endpoints(token)
+        logger.info "SERVICES:"
+        logger.info services
+        services["endpoints"].each do |endpoint|
+          if endpoint["name"] == "nova"
+            nova_ip = endpoint["internalURL"]
+          elsif endpoint["name"]  == "quantum"
+            quantum_ip = endpoint["internalURL"]
+          end
         end
+      rescue
       end
-    else
-      token = cookies[:current_token]
-      nova_ip = Storage.find(cookies[:nova_ip]).data
-      quantum_ip = Storage.find(cookies[:quantum_ip]).data
     end
     
-    destroy_deployed(@deployed,token)
+    destroy_deployed(@deployed,token,nova_ip,quantum_ip)
 
     respond_to do |format|
       format.html { redirect_to deployed_containers_path }
