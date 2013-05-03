@@ -56,3 +56,6 @@ Or on a custom port using:
 
 Where '1234' is replaced with the desired port.
 
+== Usage
+
+Donabe is currently best used through the Curvature advanced dashboard for OpenStack. Once your Donabe server has started it will automatically add itself to your OpenStack service catalogue, where it will be detected by Curvature and made available in the GUI.
