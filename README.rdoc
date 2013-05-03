@@ -56,11 +56,3 @@ Or on a custom port using:
 
 Where '1234' is replaced with the desired port.
 
-== The Recursive container format
-
-To be written.
-
-== Using Donabe via REST API
-
-To be written.
-
