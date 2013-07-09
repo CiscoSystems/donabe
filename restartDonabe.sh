@@ -4,4 +4,4 @@ rake db:drop
 rake db:create
 rake db:migrate
 
-rails server -p 3001
+rails server -d -p 3001

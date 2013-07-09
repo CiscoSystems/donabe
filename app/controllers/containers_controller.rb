@@ -277,6 +277,7 @@ class ContainersController < ApplicationController
         default_subnet =  quantum.create_subnet(n.openstack_id,n.cidr)
         logger.info "SUBNET DEPLOYED:"
         logger.info default_subnet
+        logger.info default_subnet["subnet"]["id"]
 
         # Save relevant data in the Donabe database
         n.default_subnet = default_subnet["subnet"]["id"]
@@ -311,6 +312,7 @@ class ContainersController < ApplicationController
               # Save relevant data in the Donabe database
               connected_network = r.deployed_connected_networks.build()
               connected_network.openstack_id = deployed_network.openstack_id
+              connected_network.default_subnet = deployed_network.default_subnet
               connected_network.save
             end
           end
@@ -343,6 +345,7 @@ class ContainersController < ApplicationController
               port_list << data
               connected_network = v.deployed_connected_networks.build()
               connected_network.openstack_id = deployed_network.openstack_id
+              connected_network.default_subnet = deployed_network.default_subnet
               connected_network.save
             end
           end
@@ -488,10 +491,6 @@ class ContainersController < ApplicationController
         end
       rescue
       end
-      vm.deployed_connected_networks.each do |network|
-        network.destroy
-      end
-      vm.destroy
     end
     # Delete VMs and Ports for nested containers
     deployed.deployed_containers.each do |container|
@@ -503,20 +502,27 @@ class ContainersController < ApplicationController
           end
         rescue
         end
-        vm.deployed_connected_networks.each do |network|
-          network.destroy
-        end
-        vm.destroy
       end
     end
     # Delete Router interfaces
     deployed.deployed_routers.each do |router|
       router.deployed_connected_networks.each do |network| 
         begin
-        quantum.delete_router_interface(router.openstack_id,network.default_subnet,'network')
+          logger.info "DELETING INTERFACE"
+          logger.info router.openstack_id
+          logger.info network.default_subnet
+          deleted_ri = quantum.delete_router_interface(router.openstack_id,network.default_subnet,"subnet")
+          logger.info "INTERFACE DELETED:"
+          logger.info deleted_ri
+        rescue
+          logger.info "FAIL"
+          logger.info deleted_ri
+        end
+        # Attempt to take down the gateway interface in case one exists
+        begin
+          quantum.delete_router_gateway(router.openstack_id)
         rescue
         end
-        network.destroy
       end
     end
     # Delete Router interfaces for nested containers
@@ -524,49 +530,47 @@ class ContainersController < ApplicationController
       container.deployed_routers.each do |router|
         router.deployed_connected_networks.each do |network| 
           begin
-          quantum.delete_router_interface(router.openstack_id,network.default_subnet,'network')
+            quantum.delete_router_interface(router.openstack_id,network.default_subnet,"subnet")
           rescue
           end
-          network.destroy
         end
       end
     end
-    # Delete Subnets
+    # Delete Networks
     deployed.deployed_networks.each do |network|
       begin
-      quantum.delete_subnet(network.default_subnet)
-      quantum.delete_network(network.openstack_id)
+        logger.info "DELETING NETWORK"
+        deleted_net = quantum.delete_network(network.openstack_id)
+        logger.info "NETWORK DELETED:"
+        logger.info deleted_net
       rescue
+        logger.info "FAIL"
+        logger.info deleted_net
       end
-      network.destroy
     end
-    # Delete Subnets for nested containers
+    # Delete Networks for nested containers
     deployed.deployed_containers.each do |container|
       container.deployed_networks.each do |network|
         begin
-        quantum.delete_subnet(network.default_subnet)
-        quantum.delete_network(network.openstack_id)
+          quantum.delete_network(network.openstack_id)
         rescue
         end
-        network.destroy
       end
     end
     # Delete Routers
     deployed.deployed_routers.each do |router|
       begin
-      quantum.delete_router(router.openstack_id)
+        logger.info quantum.delete_router(router.openstack_id)
       rescue
       end
-      router.destroy
     end
     # Delete Routers for nested containers
     deployed.deployed_containers.each do |container|
       container.deployed_routers.each do |router|
         begin
-        quantum.delete_router(router.openstack_id)
+          quantum.delete_router(router.openstack_id)
         rescue
         end
-        router.destroy
       end
     end
     deployed.deployed_containers.each do |container|
@@ -607,10 +611,8 @@ class ContainersController < ApplicationController
     
     destroy_deployed(@deployed,token,nova_ip,quantum_ip)
 
-    respond_to do |format|
-      format.html { redirect_to deployed_containers_path }
-      format.json { redirect_to deployed_containers_path }
-    end
+    @deployed_containers = DeployedContainer.all
+
   end
 
   # DELETE tenant_id/containers/:id.json

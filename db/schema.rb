@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20130304220548) do
 
   create_table "deployed_connected_networks", :force => true do |t|
     t.string   "openstack_id"
+    t.string   "default_subnet"
     t.integer  "deployed_vm_id"
     t.integer  "deployed_router_id"
     t.datetime "created_at",         :null => false
