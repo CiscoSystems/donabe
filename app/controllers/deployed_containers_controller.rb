@@ -54,13 +54,16 @@ class DeployedContainersController < ApplicationController
     quantum = Ropenstack::Quantum.new(quantumIP, token)
 
     deployed_containers.each do |deployed_container|
+      logger.info "Checking nodes for deployed container:" + deployed_container.id.to_s
       # Check all VMs in the container
       deployed_container.deployed_vms.each do |vm|
         begin
           # Ask openstack for the server details
           server = nova.servers(vm.openstack_id)
+          logger.info  "Server " + vm.openstack_id + " is up."
         rescue
           # If openstack returns an error, delete the vm
+          logger.info  "Server " + vm.openstack_id + " is down. Deleting from deployed container."
           vm.destroy()
         end
       end
@@ -70,8 +73,10 @@ class DeployedContainersController < ApplicationController
         begin
           # Ask openstack for the network details
           net = quantum.networks(network.openstack_id)
+          logger.info  "Network " + network.openstack_id + " is up."
         rescue
           # If openstack returns an error, delete the network
+          logger.info  "Network " + network.openstack_id + " is down. Deleting from deployed container."
           network.destroy()
         end
       end
@@ -81,8 +86,10 @@ class DeployedContainersController < ApplicationController
         begin
           # Ask openstack for the router details
           r = quantum.routers(router.openstack_id)
+          logger.info  "Router " + router.openstack_id + " is up."
         rescue
           # If openstack returns an error, delete the router
+          logger.info  "Router " + router.openstack_id + " is down. Deleting from deployed container."
           router.destroy()
         end
       end
