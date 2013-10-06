@@ -1,31 +1,31 @@
 <html>
   <head>
-    <title> {% if page.title %} {{ page.title }} | {% endif %} Curvature - The Advanced Dashboard </title>
-    <link rel="stylesheet" href="css/style.css" />
+    <title> {% if page.title %} {{ page.title }} | {% endif %} Donabe - Recursive Containers </title>
+    {% include imports.html %}
   </head>
   <body>
-    <div id="header">
-      <h1> Donabe - The Recursive Service </h1>
-    </div>
+    {% include header.html %}
+    {% include navbar.html %}
     <div id="main">
-      <div id="nav">
-        <ul>
-          <li> Home </li>
-          <li> About the Project </li>
-          <li> Documentation </li>
-        </ul>
-        Related Projects:
-        <ul>
-          <li> Curvature </li>
-        </ul>
-      </div>
       <div id="content">
+        <h1>{{ page.title }}</h1>
         {{ content }}
       </div>
+      <div id="rightpane">
+        <div id="feed">
+          <h3> Recent Activity </h3> <img src="{{ site.url }}/images/feed-icon-14x14.png" alt="RSS feed">
+          <div class="clear"></div>
+          {% include rssfeed.html %}
+        </div>
+        <div id="related">
+          <h3> Related Projects </h3>
+          <ul>
+            <li><a href="http://ciscosystems.github.io/curvature">Curvature</a></li>
+          </ul>
+        </div>
+      </div>
       <div class="clear"> </div>
-    </div>
-    <div id="footer">
-      <p> Some footer information goes here like copyright or something </p>
+      {% include footer.html %} 
     </div>
   </body>
 </html>
