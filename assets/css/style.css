@@ -2,7 +2,7 @@ body {
   min-width: 960px;
   margin: 0px;
   font-family: "Lucida Grande",Lucida Sans,Arial,sans-serif;
-  background-color: #d7ebf9;
+  background-color: #dddddd;
 }
 
 .clear {
@@ -14,7 +14,7 @@ body {
 #header {
   background: white;
   padding-top: 20px;
-  height: 80px;
+  height: 90px;
   width: 100%;
 }
 
@@ -26,6 +26,8 @@ body {
 
 #header h1 {
   float: left;
+  margin: 0;
+  margin-top: 40px;
   padding-left: 20px;
 }
 
@@ -40,9 +42,9 @@ body {
 
 #stripe {
   height: 40px;
-  background: linear-gradient(to bottom, #003c87 0%,#307bad 100%);
-  background: -webkit-linear-gradient(top, #003c87 0%,#307bad 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#003c87), color-stop(100%,#307bad));
+  background: linear-gradient(to bottom, #aa9988 0%,#554444 100%);
+  background: -webkit-linear-gradient(top, #aa9988 0%,#554444 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aa9988), color-stop(100%,#554444));
 }
 
 #nav {
@@ -92,7 +94,7 @@ body {
   width: 690px;
   float: left;
   padding:20px;
-  background: #307bad;
+  background: #eebb77;
   border-radius: 15px 15px 15px 0px;
 }
 
@@ -162,7 +164,7 @@ body {
 
 #feed, #related {
   color: white;
-  background: #003c87;
+  background: #554444;
   border-radius: 15px 15px 15px 0px;
   margin-bottom: 20px;
   padding: 10px;
