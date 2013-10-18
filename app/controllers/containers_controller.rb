@@ -200,7 +200,12 @@ class ContainersController < ApplicationController
           end
         end
       rescue
+        # Respond with HTTP 401 Unauthorized
+        render status: :unauthorized
       end
+    else
+      # Respond with HTTP 401 Unauthorized
+      render status: :unauthorized
     end
   
     #### Uncomment this section for testing on a clean slate ####
@@ -606,7 +611,12 @@ class ContainersController < ApplicationController
           end
         end
       rescue
+        # Respond with HTTP 401 Unauthorized
+        render status: :unauthorized
       end
+    else
+      # Respond with HTTP 401 Unauthorized
+      render status: :unauthorized
     end
     
     destroy_deployed(@deployed,token,nova_ip,quantum_ip)
