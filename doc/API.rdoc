@@ -20,7 +20,7 @@ Return a given container:
 
 Via GET
 
-  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/container/<container_id>.jsonA
+  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/container/<container_id>.json
 
 The returned message body will contain a JSON object as described in the Container Schema.
 
