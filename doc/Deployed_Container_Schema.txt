@@ -1,0 +1,38 @@
+{
+	"container": {
+       	        "id": "uyk32v4u2k3yv2u3kyv",
+		"container_id": "899gw8rbt86867dfg867t",
+		"tenant_id": "3y4ibt835btub3fb3ifu34b",
+		"routers": [
+			{
+				"id: "78wyf279g387g37vg",
+				"openstack__id": "98rg3748t38v7thiwh",
+				"endpoint": true
+			}
+		],
+		"networks": [
+			{
+				"temp_id": "2",
+				"cidr": "172.71.35.0/24",
+				"openstack_id": "8w76egf827db2387",
+				"endpoint": false
+			}
+		],
+		"vms": [
+			{
+				"temp_id": "3",
+				"openstack_id": "9e7fyiewfg28fg872f",
+				"name": "Database",
+				"image name": "cirros-0.3.0-x86_64-uec",
+				"image id": "bfeb60d6-8ac8-4fc3-9aef-88939aa7578b",
+				"flavor": "1",
+				"endpoint": false
+			}
+		],
+     	        "containers": [
+			{
+				"id": "f9823yn924yb8"
+			}
+		]
+	}
+}
