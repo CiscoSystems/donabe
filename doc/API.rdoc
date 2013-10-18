@@ -1,0 +1,61 @@
+== Donabe API Documentation
+
+This document describes the Donabe API used for the creation, querying, deployment and destruction of application containers.
+
+All requests are to be made by HTTP REST, and must include the users OpenStack X-Auth-Token in the message header.
+
+== Containers
+
+= Creation
+
+Via POST
+
+  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/containers.json
+
+= Querying
+
+Return a given container:
+
+Via GET
+
+  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/container/<container_id>.json
+
+Return a list of containers:
+
+Via GET
+
+  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/containers.json
+
+= Deletion
+
+Via DELETE
+
+  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/<container_id>.json
+
+= Deployment
+
+Via GET
+
+  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/containers/deploy/<container_id>.json
+
+== Deployed Containers
+
+= Querying
+
+Return a given deployed container:
+
+Via GET
+
+  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/deployed_container/<container_id>.json
+
+Return a list of containers:
+
+Via GET
+
+  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/deployed_containers.json
+
+= Destruction
+
+Via GET
+
+  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/deployed_containers/destroy_deployed/<container_id>.json
