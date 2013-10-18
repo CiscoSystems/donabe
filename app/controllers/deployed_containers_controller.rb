@@ -18,6 +18,7 @@ class DeployedContainersController < ApplicationController
   def index
     nova_ip = nil
     quantum_ip = nil
+    # Read X-Auth-Token from message header and extract nova/quantum IPs
     if request.headers["X-Auth-Token"] != ""
       token = request.headers["X-Auth-Token"]
       begin
@@ -29,18 +30,29 @@ class DeployedContainersController < ApplicationController
             quantum_ip = endpoint["internalURL"]
           end
         end
-      rescue
-        token = Storage.find(cookies[:current_token]).data
-        nova_ip = Storage.find(cookies[:nova_ip]).data
-        quantum_ip = Storage.find(cookies[:quantum_ip]).data
-      end
-    end
-    
-    checkNodes(DeployedContainer.where(:tenant_id => params[:tenant_id]),nova_ip,quantum_ip,token)
+        # Check if these nodes are active using given nova/quantum IPs
+        checkNodes(DeployedContainer.where(:tenant_id => params[:tenant_id]),nova_ip,quantum_ip,token)
 
-    @deployed_containers = DeployedContainer.where(:tenant_id => params[:tenant_id])
-    logger.info "Deployed Containers:"
-    logger.info @deployed_containers.to_s()
+        @deployed_containers = DeployedContainer.where(:tenant_id => params[:tenant_id])
+        logger.info "Deployed Containers:"
+        logger.info @deployed_containers.to_s()
+      rescue
+        # Donabe no longer holds its own cookies
+        # This rescue solution is deprecated
+        # token = Storage.find(cookies[:current_token]).data
+        # nova_ip = Storage.find(cookies[:nova_ip]).data
+        # quantum_ip = Storage.find(cookies[:quantum_ip]).data
+
+        logger.info "Incorrect/Expired Token Received From Curvature:"
+        logger.info token
+        
+        # Respond with HTTP 401 Unauthorized
+        render status: :unauthorized
+      end
+    else
+      # Respond with HTTP 401 Unauthorized
+      render status: :unauthorized
+    end
   end
 
   # Checks all nodes in a given list of deployed containers to make sure they still
