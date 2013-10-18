@@ -12,19 +12,25 @@ Via POST
 
   http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/containers.json
 
+The message body must then contain a JSON object as described in the Container Schema.
+
 === Querying
 
 Return a given container:
 
 Via GET
 
-  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/container/<container_id>.json
+  http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/container/<container_id>.jsonA
+
+The returned message body will contain a JSON object as described in the Container Schema.
 
 Return a list of containers:
 
 Via GET
 
   http://<Donabe_IP>:<Donabe_Port>/<tenant_id>/containers.json
+
+The returned message body will contain a list of JSON objects as described in the Container Schema.
 
 === Deletion
 
