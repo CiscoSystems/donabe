@@ -37,7 +37,7 @@ For most setups all three will be the same.
 
 Once you have edited and saved this file, that is the only configuration that Donabe needs.
 
-To start the Donabe service, first initialise the database with the folling commands:
+To start the Donabe service in development mode, first initialise the database with the folling commands:
 
   rake db:create
   rake db:migrate
