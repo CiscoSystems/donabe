@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  name: MyString
-  subnet_cidr: MyString
-
-two:
-  name: MyString
-  subnet_cidr: MyString

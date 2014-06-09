@@ -1,9 +1,0 @@
-{
-  "containers:index": [],
-  "containers:create": [],
-  "containers:show": [],
-  "containers:delete": [],
-  "containers:deploy": [],
-  "containers:destroy_deployed_REST": [],
-  "deployed_containers:index": []
-}
