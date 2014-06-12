@@ -24,5 +24,6 @@ class EndpointInLine(admin.StackedInline):
 class ContainerAdmin(admin.ModelAdmin):
 	fields = ['name']
 	inlines = [RouterInLine,NetworkInLine,VmInLine,EmbeddedContainerInLine,EndpointInLine]
+	search_fields = ['name']
 
 admin.site.register(Container, ContainerAdmin)
