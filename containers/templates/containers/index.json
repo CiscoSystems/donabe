@@ -1,0 +1,99 @@
+{% for container in containers.all %}
+{
+	"container": {
+		"name": "{{ container.name }}",
+		"routers": [
+		{% for router in container.router_set.all %}
+			{
+				"name": "{{ router.name }}",
+				"temp_id": "{{ router.temp_id }}",
+				"endpoint": "{{ router.endpoint }}",
+				"networks": [
+				{% for network in router.network_set.all %}
+					{
+						"temp_id": "{{ network.temp_id }}"
+				{% if network == router.network_set.last %}
+					}
+				{% else %}
+					},
+				{% endif %}	
+				{% endfor %}
+				]
+		{% if router == container.router_set.last %}
+			}
+		{% else %}
+			},
+		{% endif %}
+		{% endfor %}
+		],
+		"networks": [
+		{% for network in container.network_set.all %}
+			{
+				"name": "{{ network.name }}",
+				"cidr": "{{ network.cidr }}",
+				"temp_id": "{{ network.temp_id }}",
+				"endpoint": "{{ network.endpoint }}"
+		{% if network == container.network_set.last %}
+			}
+		{% else %}
+			},
+		{% endif %}
+		{% endfor %}
+		], 
+		"vms": [
+		{% for vm in container.vm_set.all %}
+			{
+				"name": "{{ vm.name }}",
+				"temp_id": "{{ vm.temp_id }}",
+				"endpoint": "{{ vm.endpoint }}",
+				"image_name": "{{ vm.image_name }}",
+				"image_id": "{{ vm.image_id }}",
+				"flavor": "{{ vm.flavor }}",
+				"networks": [
+				{% for network in vm.network_set.all %}
+					{
+						"temp_id": "{{ network.temp_id }}"
+				{% if network == vm.network_set.last %}
+					}
+				{% else %}
+					},
+				{% endif %}	
+				{% endfor %}
+				]
+		{% if vm == container.vm_set.last %}
+			}
+		{% else %}
+			},
+		{% endif %}
+		{% endfor %}
+		],
+		"containers": [
+		{% for em_container in container.embeddedcontainer_set.all %}
+			{
+				"temp_id": "{{ em_container.temp_id }}",
+				"endpoints": [
+				{% for endpoint in em_container.endpoint_set.all %}
+					{
+						"endpoint_id": "{{ endpoint.endpoint_id }}",
+						"connected_id": "{{ endpoint.connected_id }}"
+				{% if endpoint == em_container.endpoint_set.last %}
+					}
+				{% else %}
+					},
+				{% endif %}	
+				{% endfor %}
+				]
+		{% if em_container == container.embeddecontainer_set.last %}
+			}
+		{% else %}
+			},
+		{% endif %}
+		{% endfor %}
+		]
+	}
+{% if container == containers.last %}
+}
+{% else %}
+},
+{% endif %}
+{% endfor %}

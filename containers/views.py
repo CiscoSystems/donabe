@@ -1,3 +1,8 @@
 from django.shortcuts import render
 
-# Create your views here.
+from containers.models import Container
+
+def index(request):
+	containers = Container.objects.all()
+	context = {'containers': containers}
+	return render(request, 'containers/index.json', context)
