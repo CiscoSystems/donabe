@@ -242,10 +242,10 @@ class ContainersController < ApplicationController
     deployed.tenant_id = tenant
 
     novaIP = URI.parse(nova_ip)
-    nova =  Ropenstack::Nova.new(novaIP, token)
+    nova =  Ropenstack::Compute.new(novaIP, token)
 
     quantumIP = URI.parse(quantum_ip)
-    quantum = Ropenstack::Quantum.new(quantumIP, token)
+    quantum = Ropenstack::Networking.new(quantumIP, token)
 
     # All OpenStack communication is handled inside a begin-end block
     # If any errors are thrown all deployment actions up to that point will be rolled back
@@ -483,10 +483,10 @@ class ContainersController < ApplicationController
   # Rollback all OpenStack Actions caused by a container deployment
   def destroy_deployed(deployed,token,nova_ip,quantum_ip)
     novaIP = URI.parse(nova_ip)
-    nova =  Ropenstack::Nova.new(novaIP, token)
+    nova =  Ropenstack::Compute.new(novaIP, token)
 
     quantumIP = URI.parse(quantum_ip)
-    quantum = Ropenstack::Quantum.new(quantumIP, token)
+    quantum = Ropenstack::Networking.new(quantumIP, token)
     # Delete VMs and Ports
     deployed.deployed_vms.each do |vm|
       begin

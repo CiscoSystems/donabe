@@ -121,7 +121,7 @@ class ApplicationController < ActionController::Base
 
   def nova()
           novaIP = URI.parse(Storage.find(cookies[:nova_ip]).data)
-          return Ropenstack::Nova.new(novaIP, Storage.find(cookies[:current_token]).data)
+          return Ropenstack::Compute.new(novaIP, Storage.find(cookies[:current_token]).data)
   end
   
   def keystone()
@@ -129,17 +129,17 @@ class ApplicationController < ActionController::Base
 
   def cinder()
           cinderIP = URI.parse(Storage.find(cookies[:cinder_ip]).data)
-          return Ropenstack::Cinder.new(cinderIP, Storage.find(cookies[:current_token]).data)
+          return Ropenstack::BlockStorage.new(cinderIP, Storage.find(cookies[:current_token]).data)
   end
 
   def quantum()
           quantumIP = URI.parse(Storage.find(cookies[:quantum_ip]).data)
-          return Ropenstack::Quantum.new(quantumIP, Storage.find(cookies[:current_token]).data)
+          return Ropenstack::Networking.new(quantumIP, Storage.find(cookies[:current_token]).data)
   end
 
   def glance()
           glanceIP = URI.parse(Storage.find(cookies[:glance_ip]).data)
-          return Ropenstack::Glance.new(glanceIP, Storage.find(cookies[:current_token]).data)
+          return Ropenstack::ImageStorage.new(glanceIP, Storage.find(cookies[:current_token]).data)
   end
 
   def glance_address(endpoint)

@@ -60,10 +60,10 @@ class DeployedContainersController < ApplicationController
   # If all nodes in a container no longer exist, delete the container.
   def checkNodes(deployed_containers,nova_ip,quantum_ip,token)
     novaIP = URI.parse(nova_ip)
-    nova =  Ropenstack::Nova.new(novaIP, token)
+    nova =  Ropenstack::Compute.new(novaIP, token)
 
     quantumIP = URI.parse(quantum_ip)
-    quantum = Ropenstack::Quantum.new(quantumIP, token)
+    quantum = Ropenstack::Networking.new(quantumIP, token)
 
     deployed_containers.each do |deployed_container|
       logger.info "Checking nodes for deployed container:" + deployed_container.id.to_s
@@ -135,10 +135,10 @@ class DeployedContainersController < ApplicationController
     end
 
     novaIP = URI.parse(nova_ip)
-    nova =  Ropenstack::Nova.new(novaIP, token)
+    nova =  Ropenstack::Compute.new(novaIP, token)
 
     quantumIP = URI.parse(quantum_ip)
-    quantum = Ropenstack::Quantum.new(quantumIP, token)
+    quantum = Ropenstack::Networking.new(quantumIP, token)
 
     # Make a note of how many networks this container already has
     networks_count = @container.deployed_networks.count
